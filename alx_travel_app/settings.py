@@ -4,9 +4,6 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ---------------------------------------------------------------------
-# CORE DJANGO SETTINGS
-# ---------------------------------------------------------------------
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dev-secret-key")
 DEBUG = True
 ALLOWED_HOSTS = ["*"]
@@ -52,9 +49,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "alx_travel_app.wsgi.application"
 
-# ---------------------------------------------------------------------
-# DATABASE
-# ---------------------------------------------------------------------
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -62,24 +56,16 @@ DATABASES = {
     }
 }
 
-# ---------------------------------------------------------------------
-# INTERNATIONALIZATION
-# ---------------------------------------------------------------------
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Africa/Nairobi"
 USE_I18N = True
 USE_TZ = True
 
-# ---------------------------------------------------------------------
-# STATIC FILES
-# ---------------------------------------------------------------------
 STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# ---------------------------------------------------------------------
-# EMAIL BACKEND (for Celery booking confirmation)
-# ---------------------------------------------------------------------
+# Email (for Celery task)
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
@@ -88,10 +74,7 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "youremail@gmail.com")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "yourpassword")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-# ---------------------------------------------------------------------
-# CELERY (RabbitMQ as broker)
-# ---------------------------------------------------------------------
-# Task requires: “Set up Celery with RabbitMQ as the message broker.”
+# Celery + RabbitMQ
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "amqp://localhost")
 CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", "rpc://")
 CELERY_ACCEPT_CONTENT = ["json"]
