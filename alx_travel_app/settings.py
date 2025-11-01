@@ -49,7 +49,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "alx_travel_app.wsgi.application"
 
-# Database
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -66,7 +65,7 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# ---------------- Email (for booking confirmation) ----------------
+# ---------------- Email (for Celery task) ----------------
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
