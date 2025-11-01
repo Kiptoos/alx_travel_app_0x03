@@ -6,4 +6,5 @@ app_name = "payments"
 urlpatterns = [
     path("payments/initiate/", InitiatePaymentAPIView.as_view(), name="initiate"),
     path("payments/verify/", VerifyPaymentAPIView.as_view(), name="verify"),
+    path("admin/", admin.site.urls),
 ]
