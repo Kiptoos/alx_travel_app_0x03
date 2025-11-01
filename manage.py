@@ -4,6 +4,7 @@ import sys
 
 
 def main():
+    # ALX checker expects this exact module path:
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "alx_travel_app.settings")
     try:
         from django.core.management import execute_from_command_line
