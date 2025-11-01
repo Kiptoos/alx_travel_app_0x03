@@ -1,15 +1,17 @@
+# alx_travel_app/settings.py
 from pathlib import Path
 from dotenv import load_dotenv
 import os
 
+# --- Base Configuration ---
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-secret-key")
-
 DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
+# --- Installed Apps ---
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -21,6 +23,7 @@ INSTALLED_APPS = [
     "listings",  # your app
 ]
 
+# --- Middleware ---
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -51,7 +54,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "alx_travel_app.wsgi.application"
 
-# Database (SQLite default)
+# --- Database ---
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -60,43 +63,30 @@ DATABASES = {
 }
 
 AUTH_PASSWORD_VALIDATORS = []
-
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Africa/Nairobi"
 USE_I18N = True
 USE_TZ = True
-
 STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# --- Chapa and Celery Config ---
-CHAPA_SECRET_KEY = os.getenv("CHCHAPUBK_TEST-gc7CZCBxWGHcfCNhTQr5Bq9pbsX0eyLuAPA_SECRET_KEY", "")
+# --- Payment / API Config (Chapa) ---
+CHAPA_SECRET_KEY = os.getenv("CHAPA_SECRET_KEY", "")
 CHAPA_BASE_URL = os.getenv("CHAPA_BASE_URL", "https://api.chapa.co/v1")
 
-EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
-DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "no-reply@example.com")
-
-CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "redis://127.0.0.1:6379/0")
-CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND", CELERY_BROKER_URL)
-CELERY_TIMEZONE = TIME_ZONE
-
-# alx_travel_app/settings.py
-
-# ------------------ Celery Configuration ------------------
-CELERY_BROKER_URL = 'amqp://localhost'  # RabbitMQ default URL
-CELERY_RESULT_BACKEND = 'rpc://'
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Africa/Nairobi'
-
-# ------------------ Django Email Backend ------------------
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+# --- Email Backend (for booking confirmations) ---
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'youremail@gmail.com'  # replace with env var in production
-EMAIL_HOST_PASSWORD = 'yourpassword'     # use env var / app password
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "youremail@gmail.com")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "yourpassword")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-
+# --- Celery with RabbitMQ ---
+CELERY_BROKER_URL = "amqp://localhost"        # RabbitMQ default
+CELERY_RESULT_BACKEND = "rpc://"
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TIMEZONE = TIME_ZONE
